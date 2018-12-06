@@ -1,0 +1,148 @@
+<div align="center" class="AddFoodBox" [hidden]="foodService.showAddFoodBox">
+  <h4>Add Food Item</h4>
+  <form (ngSubmit)="AddFood(food);foodForm.reset()" #foodForm="ngForm">
+  <div class="form-group">
+    <label for="name">Food Name:</label>
+     <input type="text" [(ngModel)]="food.name" #name="ngModel" class="form-control" name="name" id="name" required />
+	  <div [hidden]="name.valid || name.pristine"
+         class="alert alert-danger">
+      Food Name is Required
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="quantity">Quantity:</label>
+    <input type="text" [(ngModel)]="food.quantity"  #quantity="ngModel" class="form-control" name="quantity" id="quantity" required />
+	  <div [hidden]="quantity.valid || quantity.pristine"
+         class="alert alert-danger">
+      Quantity is Required
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="expiry">Expirt:</label>
+     <input type="text" [(ngModel)]="food.expiry"  #expiry="ngModel" class="form-control" name="expiry" id="expiry" required />
+	  <div [hidden]="expiry.valid || expiry.pristine"
+         class="alert alert-danger">
+      Expiry Date is Required
+    </div>
+  </div>
+    <div class="form-group">
+    <label for="date">Date:</label>
+  <input type="text" [(ngModel)]="food.date"  #date="ngModel" class="form-control" name="date" id="date" required />
+	  <div [hidden]="date.valid || date.pristine"
+         class="alert alert-danger">
+      Date Date is Required
+    </div>
+  </div>
+    <div class="form-group">
+    <label for="left_overs">Left Overs:</label>
+  <select [(ngModel)]="food.left_overs"  #left_overs="ngModel" class="form-control" name="left_overs" id="left_overs">
+  <option  value= "true">Yes</option>
+   <option  value= "false">No</option>
+</select>
+  </div>
+<button type="submit" [disabled]="!foodForm.form.valid" class="btn btn-success btn-block">Submit</button>
+</form>
+</div>
+<div *ngIf="foods.length > 0" class="FoodListBox">
+<h2 align="center">MyFridge Food List</h2>
+<table id="mytable" class="table table-bordred table-striped">
+<thead>
+                  <th>Food Name</th>
+                    <th>View</th>
+                     <th>Edit</th>
+                    <th>Delete</th>
+                  </thead>
+   <tbody>
+<tr *ngFor="let food of foods">
+   <td>{{food.name}}</td>
+   <td><a  [routerLink]="['/food', food._id]" title="Click to Open {{food.name}}">View</a></td>
+   <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" (click) = "showEditFood(food)" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+   <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" (click) = "showDeleteFood(food)" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td></tr>
+</tbody>
+</table>
+<div class="modal fade" id="edit" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Edit Food</h4>
+        </div>
+        <div class="modal-body">
+          <div align="center" class="EditFoodBox">
+            <form (ngSubmit)="EditFood(foodToEdit)" #editFoodForm="ngForm">
+            <div class="form-group">
+              <label for="name">Food Name:</label>
+              <input type="text" [(ngModel)]="foodToEdit.name" #foodname="ngModel" class="form-control" name="name" id="name" required />
+              <div [hidden]="foodname.valid || foodname.pristine"
+                   class="alert alert-danger">
+                Food Name is required
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="quantity">Quantity:</label>
+              <input type="text"  class="form-control" [(ngModel)]="foodToEdit.quantity" #foodquantity="ngModel" name="quantity" id="quantity" required/>
+              <div [hidden]="foodquantity.valid || foodquantity.pristine"
+                   class="alert alert-danger">
+                Quantity is required
+              </div>
+            </div>
+			  <div class="form-group">
+              <label for="expiry">Expiry:</label>
+              <input type="text" class="form-control" [(ngModel)]="foodToEdit.expiry" #foodexpiry="ngModel" name="expiry" id="expiry" required/>
+              <div [hidden]="foodexpiry.valid || foodexpiry.pristine"
+                   class="alert alert-danger">
+                Expiry is required
+              </div>
+            </div>
+			<div class="form-group">
+              <label for="date">Date:</label>
+              <input type="text" class="form-control" [(ngModel)]="foodToEdit.date" #fooddate="ngModel" name="date" id="date" required/>
+              <div [hidden]="fooddate.valid || fooddate.pristine"
+                   class="alert alert-danger">
+                Date is required
+              </div>
+            </div>
+<button type="submit" [disabled]="!editFoodForm.form.valid || !editFoodForm.form.dirty" class="btn btn-success btn-block">Submit</button>
+          </form>
+          <div style="margin:10px;" *ngIf="apiMessage" align="center" class="alert alert-success" role="alert">
+          <strong>{{apiMessage}}</strong>
+          </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <div class="modal fade" id="delete" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Delete Food</h4>
+        </div>
+        <div class="modal-body">
+          <div align="center" class="DeleteFoodBox">
+            <div *ngIf="!apiMessage" align="center" class="alert alert-danger" role="alert">
+              <p>Are you sure want to delete this food</p>
+            <strong>{{foodToDelete.name}}</strong>
+            </div>
+          <div style="margin:10px;" *ngIf="apiMessage" align="center" class="alert alert-success" role="alert">
+          <strong>{{foodToDelete.name}}</strong>  {{apiMessage}}
+          </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" *ngIf="!apiMessage" (click)="DeleteFood(foodToDelete)">Confirm</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<div *ngIf="foods.length <= 0" class="NoFoodsBox">
+<div align="center" class="alert alert-info" role="alert">
+<strong>No Foods Available in Database</strong>
+</div>
+</div>

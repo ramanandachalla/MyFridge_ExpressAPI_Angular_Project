@@ -1,0 +1,14 @@
+<div align="center">
+<h4>Food Details</h4>
+<div *ngIf="food">
+<h3>{{food.name}}</h3>
+<p>Quantity: {{food.quantity}}</p>
+<p>Left_Overs: {{food.left_overs}}</p>
+<p>Expiry: {{food.expiry}}</p>
+<p>Date: {{food.date}}</p>
+<button (click)="goBack()" type="button" class="btn btn-danger">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+        Go Back
+      </button>
+</div>
+</div>

@@ -1,0 +1,25 @@
+<div class="container">
+<div class="starter-template">
+    <h1>MyFridge Page</h1>
+    <p class="lead">In this home page display list of Foods</p>
+<hr>
+    <h2>List of Foods</h2>
+	<div *ngFor="let food of foods">
+</div>
+<div class="listFoods">
+  <div class="row">
+  
+      <!-- Boxes  -->
+    <div *ngFor="let food of foods" class="col-xs-12 col-sm-6 col-lg-4">
+    <div class="box">
+        <div class="info">
+          <h3 class="title">{{food.name}}</h3>
+<div class="more">
+            <a [routerLink]="['/food', food._id]" title="Click to Open {{food.name}}">
+              Read More <i class="fa fa-angle-double-right"></i>
+            </a>
+          </div>
+        </div>
+      <div class="space"></div>
+    </div>
+  </div>
